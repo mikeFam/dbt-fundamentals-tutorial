@@ -34,3 +34,22 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+  
+  # Python models
+  - name: stg_customers_py
+    config:
+      materialized: table
+      tags: ['python']
+      packages : ["pandas"]
+
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null  
+
+  - name: stg_orders_describe
+    config:
+      materialized: table
+      tags: ['python']
+      packages : ["pandas"]
