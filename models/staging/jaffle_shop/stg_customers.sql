@@ -4,7 +4,7 @@ with customers as (
       first_name, 
       last_name, 
       COUNT(*) AS cnt
-  FROM raw.jaffle_shop.customers
+  FROM {{ source('jaffle_shop', 'customers') }}
   GROUP BY customer_id, 
         first_name, 
         last_name
