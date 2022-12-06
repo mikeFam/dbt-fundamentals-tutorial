@@ -14,3 +14,9 @@ sources:
           error_after:
             count: 24
             period: hour
+      - name: ID
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+          
