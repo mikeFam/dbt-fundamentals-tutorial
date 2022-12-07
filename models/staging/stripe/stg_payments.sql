@@ -1,6 +1,6 @@
 with payment as (
     select
-        distinct id as payment_id,
+        id as payment_id,
         orderid as order_id,
         paymentmethod as payment_method,
         status,
@@ -10,5 +10,6 @@ with payment as (
         created as created_at
 
     from {{ source('stripe', 'payment') }}
+    where amount is not null
 )
 select * from payment

@@ -9,3 +9,4 @@ models:
         tests:
           - unique
           - not_null  
+          - assert_column_is_greater_than_five
