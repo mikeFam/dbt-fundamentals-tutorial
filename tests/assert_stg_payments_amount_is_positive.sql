@@ -1,3 +1,5 @@
+{{ config(store_failures=True) }}
+
 with 
 payments as (
     select * from {{ ref('stg_payments') }}

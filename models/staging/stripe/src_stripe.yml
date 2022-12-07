@@ -14,9 +14,30 @@ sources:
           error_after:
             count: 24
             period: hour
-        tests:
-          - unique
-          - not_null
+        columns:
+          - name: id
+            tests:
+              - unique:
+                  config:
+                    severity: error
+                    error_if: ">30"
+                    warn_if: ">10"
+              - not_null
+
+          - name: paymentmethod
+            tests:
+              - accepted_values:
+                  values: ['bank_transfer', 'coupon', 'credit_card', 'gift_card']
+                  config:
+                    where: "status != 'fail'"
+
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['success', 'fail']
+                  config: 
+                    limit: 10
+                    store_failures: true
 
       # - name: ID
       #   description: Primary key

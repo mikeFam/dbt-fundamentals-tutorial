@@ -8,7 +8,10 @@ models:
         descriptions: primary key
         tests:
           - unique
-          - not_null
+          - not_null:
+              config:
+                severity: error
+                error_if: ">100"
           - relationships:
               to: ref('fct_orders')
               field: customer_id
@@ -24,6 +27,12 @@ models:
     columns:
       - name: CUSTOMER_ID
         descriptions: Customer id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+                error_if: ">30"
+                warn_if: ">10"
 
       - name: ORDER_ID
         description: Order id
