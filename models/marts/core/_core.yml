@@ -12,9 +12,33 @@ models:
           - relationships:
               to: ref('fct_orders')
               field: customer_id
+          - dbt_utils.cardinality_equality:
+              field: customer_id
+              to: ref('stg_customers')
           
   - name: fct_orders
     description: orders facts table
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "amount > 5"
     columns:
       - name: CUSTOMER_ID
-        descriptions: primary key
+        descriptions: Customer id
+
+      - name: ORDER_ID
+        description: Order id
+      
+      - name: AMOUNT
+        description: Price amount
+        tests:
+          - dbt_expectations.expect_column_value_to_be_between:
+              min_value: 0
+              row_condition: "order_is is not null"
+              strictly: False
+          - dbt_expectations.expect_column_mean_to_be_between:
+              min_value: 1
+              group_by: [customer_id]
+              row_condition: "order_is is not null"
+              strictly: False
+
+  - name: fct_orders__deprecated
